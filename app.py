@@ -1,19 +1,19 @@
-from flask import Flask, redirect, request, url_for
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-GITHUB_INSTALL_URL = "https://github.com/apps/conveyor-webhook-proto/installations/new"
+GITHUB_INSTALL_URL = "https://github.com/apps/conveyor-dev-webhook-demo/installations/new"
 
 @app.route('/')
 def index():
-    r = url_for("auth_callback")
-    return f"Hello World! <a href='{r}'>link</a>"
-
-@app.route('/git-providers/1/')
-def auth_callback():
-    return redirect(GITHUB_INSTALL_URL)
+    return f"<h1>Github Apps with Flask</h1></br> <a href='{GITHUB_INSTALL_URL}'>Install app</a>"
 
 @app.route('/git-providers/1/events/', methods=['POST'])
 def events():
     json = request.get_json()
     print(json)
+    return jsonify({'message': 'success'}), 200
+
+
+if __name__ == "__main__":
+    app.run()
